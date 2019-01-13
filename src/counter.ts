@@ -6,6 +6,14 @@ const PlusMinusInput = (function () {
   let holdDelay: number = 500;
   let incrementDelay: number = 50;
 
+  interface CounterOptions {
+    className?: string;
+    defaultValue?: number;
+    increment?: number;
+    holdDelay?: number;
+    incrementDelay?: number;
+  }
+
   class Counter {
     private inputElement: HTMLInputElement;
     private holdTimer: number;
@@ -67,11 +75,14 @@ const PlusMinusInput = (function () {
           value = parseInt(this.inputElement.value);
           if (value > increment) {
             value -= increment;
-            this.inputElement.value = value.toString();
             if ((oldValue - value) > (increment * 50)) {
               increment *= 11;
             }
           }
+          else {
+            value = counterDefaultValue;
+          }
+          this.inputElement.value = value.toString();
         }, incrementDelay);
       }, holdDelay);
     }
@@ -96,10 +107,10 @@ const PlusMinusInput = (function () {
         this.incrementTimer = setInterval(() => {
           value = parseInt(this.inputElement.value);
           value += increment;
-          this.inputElement.value = value.toString();
           if ((value - oldValue) > (increment * 50)) {
             increment *= 11;
           }
+          this.inputElement.value = value.toString();
         }, incrementDelay);
       }, holdDelay);
     }
@@ -119,12 +130,12 @@ const PlusMinusInput = (function () {
   console.log(Counter);
 
   return {
-    init: function (options: any) {
+    init: function (options: CounterOptions) {
       let elements: NodeListOf<HTMLInputElement>;
       let counter;
-      counterClass = options.counterClass || counterClass;
+      counterClass = options.className || counterClass;
       counterDefaultValue = options.defaultValue || counterDefaultValue;
-      counterIncrement = options.counterIncrement || counterIncrement;
+      counterIncrement = options.increment || counterIncrement;
       holdDelay = options.holdDelay || holdDelay;
       incrementDelay = options.incrementDelay || incrementDelay;
 
@@ -147,9 +158,9 @@ const PlusMinusInput = (function () {
 })();
 
 PlusMinusInput.init({
-  counterClass: "",
+  className: "",
   defaultValue: 1,
-  counterIncrement: 1,
+  increment: 1,
   holdDelay: 500,
   incrementDelay: 50
 });
