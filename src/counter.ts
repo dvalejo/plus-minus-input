@@ -16,8 +16,8 @@ const PlusMinusInput = (function () {
 
   class Counter {
     private inputElement: HTMLInputElement;
-    private holdTimer: number;
-    private incrementTimer: number;
+    private holdTimerId: number;
+    private incrementTimerId: number;
 
     constructor(input: HTMLInputElement) {
       this.inputElement = input;
@@ -32,18 +32,18 @@ const PlusMinusInput = (function () {
       wrapper.className = counterClass;
       minusBtn.className = counterClass + "__minus";
       minusBtn.innerHTML = "&minus;";
-      minusBtn.addEventListener("click", this.minusOnClick.bind(this));
-      minusBtn.addEventListener("mousedown", this.minusOnMousedown.bind(this));
-      minusBtn.addEventListener("mouseup", this.clearTimers.bind(this));
-      minusBtn.addEventListener("mouseout", this.clearTimers.bind(this));
+      minusBtn.addEventListener("click", event => this.minusOnClick(event));
+      minusBtn.addEventListener("mousedown", event => this.minusOnMousedown(event));
+      minusBtn.addEventListener("mouseup", () => this.clearTimers());
+      minusBtn.addEventListener("mouseout", () => this.clearTimers());
       plusBtn.className = counterClass + "__plus";
       plusBtn.innerHTML = "&plus;";
-      plusBtn.addEventListener("click", this.plusOnClick.bind(this));
-      plusBtn.addEventListener("mousedown", this.plusOnMousedown.bind(this));
-      plusBtn.addEventListener("mouseup", this.clearTimers.bind(this));
-      plusBtn.addEventListener("mouseout", this.clearTimers.bind(this));
+      plusBtn.addEventListener("click", event => this.plusOnClick(event));
+      plusBtn.addEventListener("mousedown", event => this.plusOnMousedown(event));
+      plusBtn.addEventListener("mouseup", () => this.clearTimers());
+      plusBtn.addEventListener("mouseout", () => this.clearTimers());
       this.inputElement.className = counterClass + "__field";
-      this.inputElement.addEventListener("input", this.inputOnInput.bind(this));
+      this.inputElement.addEventListener("input", event => this.inputOnInput(event));
       this.inputElement.setAttribute("value", counterDefaultValue.toString());
 
       wrapper.appendChild(minusBtn);
@@ -52,7 +52,7 @@ const PlusMinusInput = (function () {
       parent.appendChild(wrapper);
     }
 
-    minusOnClick(e: Event): void {
+    minusOnClick(event: Event): void {
       let value: number = parseInt(this.inputElement.value);
       if (!isNaN(value)) {
         if (value > counterIncrement) {
@@ -66,12 +66,12 @@ const PlusMinusInput = (function () {
       this.inputElement.setAttribute("value", this.inputElement.value);
     }
 
-    minusOnMousedown(e: Event): void {
+    minusOnMousedown(event: Event): void {
       let value: number;
       let oldValue: number = parseInt(this.inputElement.value);
       let increment: number = counterIncrement;
-      this.holdTimer = setTimeout(() => {
-        this.incrementTimer = setInterval(() => {
+      this.holdTimerId = setTimeout(() => {
+        this.incrementTimerId = setInterval(() => {
           value = parseInt(this.inputElement.value);
           if (value > increment) {
             value -= increment;
@@ -87,7 +87,7 @@ const PlusMinusInput = (function () {
       }, holdDelay);
     }
 
-    plusOnClick(e: Event): void {
+    plusOnClick(event: Event): void {
       let value: number = parseInt(this.inputElement.value);
       if (!isNaN(value)) {
         value += counterIncrement;
@@ -99,12 +99,12 @@ const PlusMinusInput = (function () {
       this.inputElement.setAttribute("value", this.inputElement.value);
     }
 
-    plusOnMousedown(e: Event): void {
+    plusOnMousedown(event: Event): void {
       let value: number;
       let oldValue: number = parseInt(this.inputElement.value);
       let increment: number = counterIncrement;
-      this.holdTimer = setTimeout(() => {
-        this.incrementTimer = setInterval(() => {
+      this.holdTimerId = setTimeout(() => {
+        this.incrementTimerId = setInterval(() => {
           value = parseInt(this.inputElement.value);
           value += increment;
           if ((value - oldValue) > (increment * 50)) {
@@ -115,24 +115,21 @@ const PlusMinusInput = (function () {
       }, holdDelay);
     }
 
-    inputOnInput(e: Event): void {
+    inputOnInput(event: Event): void {
       this.inputElement.setAttribute("value", this.inputElement.value);
     }
 
     clearTimers(): void {
       this.inputElement.setAttribute("value", this.inputElement.value);
-      if (this.incrementTimer) { clearInterval(this.incrementTimer); }
-      if (this.holdTimer) { clearTimeout(this.holdTimer); }
+      if (this.incrementTimerId) { clearInterval(this.incrementTimerId); }
+      if (this.holdTimerId) { clearTimeout(this.holdTimerId); }
     }
 
   }
 
-  console.log(Counter);
-
   return {
-    init: function (options: CounterOptions) {
+    init: function (options: CounterOptions): void {
       let elements: NodeListOf<HTMLInputElement>;
-      let counter;
       counterClass = options.className || counterClass;
       counterDefaultValue = options.defaultValue || counterDefaultValue;
       counterIncrement = options.increment || counterIncrement;
@@ -142,15 +139,14 @@ const PlusMinusInput = (function () {
       try {
         elements = document.querySelectorAll("." + counterClass);
       }
-      catch (e) {
-        console.warn("Please enter a valid selector. " + e);
+      catch (error) {
+        console.warn("Please enter a valid selector. " + error);
         return;
       }
       if (elements.length === 0) return;
 
       for (let i = 0, len = elements.length; i < len; i++) {
-        counter = new Counter(elements[i]);
-        counter.render();
+        new Counter(elements[i]).render();
       }
     }
   }
