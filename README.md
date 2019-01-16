@@ -53,13 +53,13 @@ pmInput({
 
 #### Options
 
-`inputClass` - all inputs with this class will be converted,
-`defaultValue` - value of input after convertion,
-`minValue` - minumum value of input,
-`maxValue` - maximum value of input,
-`increment` - value of an input increment,
-`holdDelay` - time (in milliseconds) after mousedown to start auto-increment,
-`incrementDelay` - time (in milliseconds) between auto-increment
+- `inputClass` - all inputs with this class will be converted,
+- `defaultValue` - value of input after convertion,
+- `minValue` - minumum value of input,
+- `maxValue` - maximum value of input,
+- `increment` - value of an input increment,
+- `holdDelay` - time (in milliseconds) after mousedown to start auto-increment,
+- `incrementDelay` - time (in milliseconds) between auto-increment
 
 ### License
 
