@@ -4,7 +4,9 @@ Input field with plus and minus buttons.
 
 ### Install
 
-Install package with npm: `npm install plus-minus-input --save`
+Install package with npm:
+
+`npm install plus-minus-input --save`
 
 ### Load
 
@@ -38,6 +40,13 @@ Call the function with your options:
 ```js
 pmInput({});
 ```
+
+#### Options
+
+##### `inputClass`
+
+This is 
+
 
 ### License
 

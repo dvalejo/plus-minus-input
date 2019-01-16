@@ -162,12 +162,12 @@ export default function plusMinusInputFactory(options: PlusMinusInputOptions): v
     elements = document.querySelectorAll("." + inputClass);
   }
   catch (error) {
-    console.warn("PlusMinusInput >> Please enter a valid selector. " + error);
+    console.warn("PlusMinusInput >> Please enter a valid inputClass. " + error);
     return;
   }
 
   if (elements.length === 0) {
-    console.warn("PlusMinusInput >> Your collection has 0 elements. Maybe your selector is invalid.");
+    console.warn("PlusMinusInput >> Your collection has 0 elements. Check your inputClass.");
     return;
   }
 
