@@ -5,14 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-<link href="plus-minus-input.css" rel="stylesheet"></head>
+  <style>
+    table {
+      width: 100%;
+    }
+  </style>
+</head>
 <body>
 
   <form action="">
-    <p><input type="text" class="input-counter" name="dollars"></p>
-    <p><input type="text" class="input-counter" name="rubles"></p>
-    <p><input type="text" class="input-counter" name="krons"></p>
+    <p><input type="text" class="plus-minus-input" name="in-p-1"></p>    
+    <p><input type="text" class="pm-input" name="in-table-3"></p>
   </form>
-  
+  <script>
+    plusMinusInputFactory({ inputClass: "plus-minus-input" });
+    plusMinusInputFactory({ inputClass: "pm-input", defaultValue: 10, maxValue: 10000, increment: 10 });
+  </script>
 <script type="text/javascript" src="plus-minus-input.js"></script></body>
 </html>

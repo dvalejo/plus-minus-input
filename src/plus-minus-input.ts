@@ -63,7 +63,7 @@ class PlusMinusInput {
   minusOnClick(event: Event): void {
     let value: number = parseInt(this.inputElement.value);
     if (!isNaN(value)) {
-      value = (value > this.minValue) ? (value - this.increment) : this.minValue;
+      value = ((value - this.increment) > this.minValue) ? (value - this.increment) : this.minValue;
     }
     else {
       value = this.defaultValue;
@@ -79,9 +79,9 @@ class PlusMinusInput {
     this.holdTimerId = setTimeout(() => {
       this.incrementTimerId = setInterval(() => {
         value = parseInt(this.inputElement.value);
-        if (value > (this.minValue + increment)) {
+        if ((value - increment) > this.minValue) {
           value -= increment;
-          if ((oldValue - value) > (increment * 50)) {
+          if ((oldValue - value) > (increment * 30)) {
             increment *= 11;
           }
         }
@@ -96,7 +96,7 @@ class PlusMinusInput {
   plusOnClick(event: Event): void {
     let value: number = parseInt(this.inputElement.value);
     if (!isNaN(value)) {
-      value = (value < this.maxValue) ? (value + this.increment) : this.maxValue;
+      value = ((value + this.increment) < this.maxValue) ? (value + this.increment) : this.maxValue;
     }
     else {
       value = this.defaultValue;
@@ -114,7 +114,7 @@ class PlusMinusInput {
         value = parseInt(this.inputElement.value);
         if ((value + increment) < this.maxValue) {
           value += increment;
-          if ((value - oldValue) > (increment * 50)) {
+          if ((value - oldValue) > (increment * 30)) {
             increment *= 11;
           }
         }

@@ -1,7 +1,7 @@
 {
   "name": "plus-minus-input",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Input field with plus and minus buttons.",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
@@ -20,6 +20,19 @@
     "start": "webpack --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
-  "author": "Valeriy Dmitruk",
-  "license": "ISC"
+  "author": "Valeriy Dmitruk <valera.dmitruk@gmail.com>",
+  "license": "GNU GPLv3",
+  "keywords": [
+    "input with plus and minus",
+    "plus minus input",
+    "input with signs",
+    "input with counter",
+    "input counter",
+    "signed input"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dvalejo/plus-minus-input.git"
+  },
+  "bugs": "https://github.com/dvalejo/plus-minus-input/issues"
 }
