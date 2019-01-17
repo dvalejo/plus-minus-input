@@ -5,20 +5,12 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "css-loader": "^2.1.0",
-    "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.5.0",
-    "style-loader": "^0.23.1",
-    "ts-loader": "^5.3.3",
-    "typescript": "^3.2.2",
-    "webpack": "^4.28.4",
-    "webpack-cli": "^3.2.1",
-    "webpack-merge": "^4.2.1"
+    "gulp": "^4.0.0",
+    "gulp-typescript": "^5.0.0",
+    "typescript": "^3.2.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --watch --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Valeriy Dmitruk <valera.dmitruk@gmail.com>",
   "license": "GNU GPLv3",
@@ -28,7 +20,8 @@
     "input with signs",
     "input with counter",
     "input counter",
-    "signed input"
+    "signed input",
+    "responsive"
   ],
   "repository": {
     "type": "git",

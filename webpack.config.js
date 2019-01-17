@@ -1,8 +1,8 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
+  mode: "none",
   entry: {
     app: "./src/plus-minus-input.ts",
   },
@@ -10,7 +10,20 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: {
+          loader: "ts-loader",
+          options: {
+            transpileOnly: true,
+          }
+        },
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader"
+        ],
         exclude: /node_modules/
       }
     ]
@@ -23,7 +36,6 @@ module.exports = {
     path: path.resolve(__dirname, "dist")
   },
   plugins: [
-    // new HtmlWebpackPlugin({ template: "./src/index.html" }),
     new MiniCssExtractPlugin({
       filename: "plus-minus-input.css"
     })
