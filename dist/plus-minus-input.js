@@ -1,38 +1,38 @@
 var pmInput = (function () {
     // -------------------------------------------------------------------------------------------------------
+    function mergeOptions(defaultOptions, options) {
+        var resultOptions = {};
+        for (var key in defaultOptions) {
+            resultOptions[key] = options.hasOwnProperty(key) ? options[key] : defaultOptions[key];
+        }
+        return resultOptions;
+    }
+    // -------------------------------------------------------------------------------------------------------
     var PlusMinusInput = /** @class */ (function () {
-        function PlusMinusInput(inputElement, inputClass, defaultValue, minValue, maxValue, increment, holdDelay, incrementDelay, minusContent, plusContent) {
+        function PlusMinusInput(inputElement, options) {
             this.inputElement = inputElement;
-            this.inputClass = inputClass;
-            this.defaultValue = defaultValue;
-            this.minValue = minValue;
-            this.maxValue = maxValue;
-            this.increment = increment;
-            this.holdDelay = holdDelay;
-            this.incrementDelay = incrementDelay;
-            this.minusContent = minusContent;
-            this.plusContent = plusContent;
+            this.options = options;
         }
         PlusMinusInput.prototype.init = function () {
-            if (this.minValue > this.maxValue)
-                this.minValue = this.maxValue;
-            if (this.defaultValue < this.minValue)
-                this.defaultValue = this.minValue;
-            if (this.defaultValue > this.maxValue)
-                this.defaultValue = this.maxValue;
-            this.render().setInputValue(this.defaultValue).setupEventListeners();
+            if (this.options.minValue > this.options.maxValue)
+                this.options.minValue = this.options.maxValue;
+            if (this.options.defaultValue < this.options.minValue)
+                this.options.defaultValue = this.options.minValue;
+            if (this.options.defaultValue > this.options.maxValue)
+                this.options.defaultValue = this.options.maxValue;
+            this.render().setupEventListeners().setInputValue(this.options.defaultValue);
         };
         PlusMinusInput.prototype.render = function () {
             this.wrapper = document.createElement("div");
             this.plusBtn = document.createElement("span");
             this.minusBtn = document.createElement("span");
             var parent = this.inputElement.parentNode;
-            this.wrapper.className = this.inputClass;
-            this.minusBtn.className = this.inputClass + "__minus";
-            this.minusBtn.innerHTML = this.minusContent;
-            this.plusBtn.className = this.inputClass + "__plus";
-            this.plusBtn.innerHTML = this.plusContent;
-            this.inputElement.className = this.inputClass + "__field";
+            this.wrapper.className = this.options.inputClass;
+            this.minusBtn.className = this.options.inputClass + "__minus";
+            this.minusBtn.innerHTML = this.options.minusContent;
+            this.plusBtn.className = this.options.inputClass + "__plus";
+            this.plusBtn.innerHTML = this.options.plusContent;
+            this.inputElement.className = this.options.inputClass + "__field";
             this.wrapper.appendChild(this.minusBtn);
             this.wrapper.appendChild(this.inputElement);
             this.wrapper.appendChild(this.plusBtn);
@@ -40,9 +40,9 @@ var pmInput = (function () {
             return this;
         };
         PlusMinusInput.prototype.setInputValue = function (value) {
-            var val = (typeof value == "string") ? value : value.toString();
-            this.inputElement.value = val;
-            this.inputElement.setAttribute("value", val);
+            value = (typeof value == "string") ? value : value.toString();
+            this.inputElement.value = value;
+            this.inputElement.setAttribute("value", value);
             return this;
         };
         PlusMinusInput.prototype.setupEventListeners = function () {
@@ -61,10 +61,10 @@ var pmInput = (function () {
         PlusMinusInput.prototype.minusOnClick = function (event) {
             var value = parseInt(this.inputElement.value);
             if (!isNaN(value)) {
-                value = ((value - this.increment) > this.minValue) ? (value - this.increment) : this.minValue;
+                value = ((value - this.options.increment) > this.options.minValue) ? (value - this.options.increment) : this.options.minValue;
             }
             else {
-                value = this.defaultValue;
+                value = this.options.defaultValue;
             }
             this.setInputValue(value);
         };
@@ -72,69 +72,67 @@ var pmInput = (function () {
             var _this = this;
             var value;
             var oldValue = parseInt(this.inputElement.value);
-            var increment = this.increment;
+            var increment = this.options.increment;
             this.holdTimerId = setTimeout(function () {
                 _this.incrementTimerId = setInterval(function () {
                     value = parseInt(_this.inputElement.value);
-                    if ((value - increment) > _this.minValue) {
+                    if ((value - increment) > _this.options.minValue) {
                         value -= increment;
                         if ((oldValue - value) > (increment * 30)) {
                             increment *= 11;
                         }
                     }
                     else {
-                        value = _this.minValue;
+                        value = _this.options.minValue;
                     }
                     _this.setInputValue(value);
-                }, _this.incrementDelay);
-            }, this.holdDelay);
+                }, _this.options.incrementDelay);
+            }, this.options.holdDelay);
         };
         PlusMinusInput.prototype.plusOnClick = function (event) {
             var value = parseInt(this.inputElement.value);
             if (!isNaN(value)) {
-                value = ((value + this.increment) < this.maxValue) ? (value + this.increment) : this.maxValue;
+                value = ((value + this.options.increment) < this.options.maxValue) ? (value + this.options.increment) : this.options.maxValue;
             }
             else {
-                value = this.defaultValue;
+                value = this.options.defaultValue;
             }
             this.setInputValue(value);
         };
         PlusMinusInput.prototype.plusOnMousedown = function (event) {
             var _this = this;
-            var value;
             var oldValue = parseInt(this.inputElement.value);
-            var increment = this.increment;
+            var increment = this.options.increment;
             this.holdTimerId = setTimeout(function () {
                 _this.incrementTimerId = setInterval(function () {
-                    value = parseInt(_this.inputElement.value);
-                    if ((value + increment) < _this.maxValue) {
+                    var value = parseInt(_this.inputElement.value);
+                    if ((value + increment) < _this.options.maxValue) {
                         value += increment;
                         if ((value - oldValue) > (increment * 30)) {
                             increment *= 11;
                         }
                     }
                     else {
-                        value = _this.maxValue;
+                        value = _this.options.maxValue;
                     }
                     _this.setInputValue(value);
-                }, _this.incrementDelay);
-            }, this.holdDelay);
+                }, _this.options.incrementDelay);
+            }, this.options.holdDelay);
         };
         PlusMinusInput.prototype.inputOnInput = function (event) {
             var value = parseInt(this.inputElement.value);
             if (!isNaN(value)) {
-                if (value > this.maxValue)
-                    value = this.maxValue;
-                if (value < this.minValue)
-                    value = this.minValue;
+                if (value > this.options.maxValue)
+                    value = this.options.maxValue;
+                if (value < this.options.minValue)
+                    value = this.options.minValue;
             }
             else {
-                value = this.defaultValue;
+                value = this.options.defaultValue;
             }
             this.setInputValue(value);
         };
         PlusMinusInput.prototype.clearTimers = function () {
-            this.setInputValue(this.inputElement.value);
             if (this.incrementTimerId) {
                 clearInterval(this.incrementTimerId);
             }
@@ -146,18 +144,21 @@ var pmInput = (function () {
     }());
     // -------------------------------------------------------------------------------------------------------
     return function plusMinusInputFactory(options) {
-        var inputClass = options.inputClass || "plus-minus-input";
-        var defaultValue = options.defaultValue || 1;
-        var minValue = options.minValue || 0;
-        var maxValue = options.maxValue || 1000;
-        var increment = options.increment || 1;
-        var holdDelay = options.holdDelay || 500;
-        var incrementDelay = options.incrementDelay || 50;
-        var minusContent = options.minusContent || "&minus;";
-        var plusContent = options.plusContent || "&plus;";
+        var defaultOptions = {
+            inputClass: "plus-minus-input",
+            defaultValue: 1,
+            minValue: 0,
+            maxValue: 1000,
+            increment: 1,
+            holdDelay: 500,
+            incrementDelay: 50,
+            minusContent: "&minus;",
+            plusContent: "&plus;"
+        };
+        var opts = mergeOptions(defaultOptions, options);
         var elements;
         try {
-            elements = document.querySelectorAll("." + inputClass);
+            elements = document.querySelectorAll("." + opts.inputClass);
         }
         catch (error) {
             console.warn("PlusMinusInput >> Please enter a valid inputClass. " + error);
@@ -167,14 +168,14 @@ var pmInput = (function () {
             console.warn("PlusMinusInput >> Your collection has 0 elements. Check your inputClass.");
             return;
         }
-        if (defaultValue < minValue || defaultValue > maxValue) {
+        if (opts.defaultValue < opts.minValue || opts.defaultValue > opts.maxValue) {
             console.warn("PlusMinusInput >> Default value of input must be more than minValue and less than maxValue");
         }
-        if (minValue > maxValue) {
+        if (opts.minValue > opts.maxValue) {
             console.warn("PlusMinusInput >> minValue of input must be less than maxValue");
         }
         for (var i = 0, len = elements.length; i < len; i++) {
-            new PlusMinusInput(elements[i], inputClass, defaultValue, minValue, maxValue, increment, holdDelay, incrementDelay, minusContent, plusContent).init();
+            new PlusMinusInput(elements[i], opts).init();
         }
     };
     // -------------------------------------------------------------------------------------------------------
