@@ -13,39 +13,50 @@ var pmInput = (function () {
             this.minusContent = minusContent;
             this.plusContent = plusContent;
         }
-        PlusMinusInput.prototype.render = function () {
-            var _this = this;
-            var wrapper = document.createElement("div");
-            var plusBtn = document.createElement("span");
-            var minusBtn = document.createElement("span");
-            var parent = this.inputElement.parentNode;
-            wrapper.className = this.inputClass;
-            minusBtn.className = this.inputClass + "__minus";
-            minusBtn.innerHTML = this.minusContent;
-            minusBtn.addEventListener("click", function (event) { return _this.minusOnClick(event); });
-            minusBtn.addEventListener("mousedown", function (event) { return _this.minusOnMousedown(event); });
-            minusBtn.addEventListener("mouseup", function () { return _this.clearTimers(); });
-            minusBtn.addEventListener("mouseout", function () { return _this.clearTimers(); });
-            plusBtn.className = this.inputClass + "__plus";
-            plusBtn.innerHTML = this.plusContent;
-            plusBtn.addEventListener("click", function (event) { return _this.plusOnClick(event); });
-            plusBtn.addEventListener("mousedown", function (event) { return _this.plusOnMousedown(event); });
-            plusBtn.addEventListener("mouseup", function () { return _this.clearTimers(); });
-            plusBtn.addEventListener("mouseout", function () { return _this.clearTimers(); });
-            this.inputElement.className = this.inputClass + "__field";
-            this.inputElement.addEventListener("input", function (event) { return _this.inputOnInput(event); });
+        PlusMinusInput.prototype.init = function () {
             if (this.minValue > this.maxValue)
                 this.minValue = this.maxValue;
             if (this.defaultValue < this.minValue)
                 this.defaultValue = this.minValue;
             if (this.defaultValue > this.maxValue)
                 this.defaultValue = this.maxValue;
-            this.inputElement.value = this.defaultValue.toString();
-            this.inputElement.setAttribute("value", this.inputElement.value);
-            wrapper.appendChild(minusBtn);
-            wrapper.appendChild(this.inputElement);
-            wrapper.appendChild(plusBtn);
-            parent.appendChild(wrapper);
+            this.render().setInputValue(this.defaultValue).setupEventListeners();
+        };
+        PlusMinusInput.prototype.render = function () {
+            this.wrapper = document.createElement("div");
+            this.plusBtn = document.createElement("span");
+            this.minusBtn = document.createElement("span");
+            var parent = this.inputElement.parentNode;
+            this.wrapper.className = this.inputClass;
+            this.minusBtn.className = this.inputClass + "__minus";
+            this.minusBtn.innerHTML = this.minusContent;
+            this.plusBtn.className = this.inputClass + "__plus";
+            this.plusBtn.innerHTML = this.plusContent;
+            this.inputElement.className = this.inputClass + "__field";
+            this.wrapper.appendChild(this.minusBtn);
+            this.wrapper.appendChild(this.inputElement);
+            this.wrapper.appendChild(this.plusBtn);
+            parent.appendChild(this.wrapper);
+            return this;
+        };
+        PlusMinusInput.prototype.setInputValue = function (value) {
+            var val = (typeof value == "string") ? value : value.toString();
+            this.inputElement.value = val;
+            this.inputElement.setAttribute("value", val);
+            return this;
+        };
+        PlusMinusInput.prototype.setupEventListeners = function () {
+            var _this = this;
+            this.minusBtn.addEventListener("click", function (event) { return _this.minusOnClick(event); });
+            this.minusBtn.addEventListener("mousedown", function (event) { return _this.minusOnMousedown(event); });
+            this.minusBtn.addEventListener("mouseup", function () { return _this.clearTimers(); });
+            this.minusBtn.addEventListener("mouseout", function () { return _this.clearTimers(); });
+            this.plusBtn.addEventListener("click", function (event) { return _this.plusOnClick(event); });
+            this.plusBtn.addEventListener("mousedown", function (event) { return _this.plusOnMousedown(event); });
+            this.plusBtn.addEventListener("mouseup", function () { return _this.clearTimers(); });
+            this.plusBtn.addEventListener("mouseout", function () { return _this.clearTimers(); });
+            this.inputElement.addEventListener("input", function (event) { return _this.inputOnInput(event); });
+            return this;
         };
         PlusMinusInput.prototype.minusOnClick = function (event) {
             var value = parseInt(this.inputElement.value);
@@ -55,8 +66,7 @@ var pmInput = (function () {
             else {
                 value = this.defaultValue;
             }
-            this.inputElement.value = value.toString();
-            this.inputElement.setAttribute("value", this.inputElement.value);
+            this.setInputValue(value);
         };
         PlusMinusInput.prototype.minusOnMousedown = function (event) {
             var _this = this;
@@ -75,7 +85,7 @@ var pmInput = (function () {
                     else {
                         value = _this.minValue;
                     }
-                    _this.inputElement.value = value.toString();
+                    _this.setInputValue(value);
                 }, _this.incrementDelay);
             }, this.holdDelay);
         };
@@ -87,8 +97,7 @@ var pmInput = (function () {
             else {
                 value = this.defaultValue;
             }
-            this.inputElement.value = value.toString();
-            this.inputElement.setAttribute("value", this.inputElement.value);
+            this.setInputValue(value);
         };
         PlusMinusInput.prototype.plusOnMousedown = function (event) {
             var _this = this;
@@ -107,7 +116,7 @@ var pmInput = (function () {
                     else {
                         value = _this.maxValue;
                     }
-                    _this.inputElement.value = value.toString();
+                    _this.setInputValue(value);
                 }, _this.incrementDelay);
             }, this.holdDelay);
         };
@@ -122,11 +131,10 @@ var pmInput = (function () {
             else {
                 value = this.defaultValue;
             }
-            this.inputElement.value = value.toString();
-            this.inputElement.setAttribute("value", this.inputElement.value);
+            this.setInputValue(value);
         };
         PlusMinusInput.prototype.clearTimers = function () {
-            this.inputElement.setAttribute("value", this.inputElement.value);
+            this.setInputValue(this.inputElement.value);
             if (this.incrementTimerId) {
                 clearInterval(this.incrementTimerId);
             }
@@ -166,9 +174,8 @@ var pmInput = (function () {
             console.warn("PlusMinusInput >> minValue of input must be less than maxValue");
         }
         for (var i = 0, len = elements.length; i < len; i++) {
-            new PlusMinusInput(elements[i], inputClass, defaultValue, minValue, maxValue, increment, holdDelay, incrementDelay, minusContent, plusContent).render();
+            new PlusMinusInput(elements[i], inputClass, defaultValue, minValue, maxValue, increment, holdDelay, incrementDelay, minusContent, plusContent).init();
         }
     };
-    console.log("bla");
     // -------------------------------------------------------------------------------------------------------
 })();

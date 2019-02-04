@@ -1,0 +1,74 @@
+.plus-minus-input {
+  position: relative;
+}
+.plus-minus-input__field {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  padding: 0 40px;
+  font-size: 16px;
+  text-align: center;
+}
+.plus-minus-input__plus,
+.plus-minus-input__minus {
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 100%;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #cccccc;
+  cursor: pointer;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.plus-minus-input__plus {
+  right: 0;
+  line-height: 38px;
+}
+.plus-minus-input__minus {
+  left: 0;
+  line-height: 40px;
+}
+
+/* ------------------------------------------------------------------------- */
+.pm-input {
+  position: relative;
+}
+.pm-input__field {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  padding: 0 40px;
+  font-size: 16px;
+  text-align: center;
+}
+.pm-input__plus,
+.pm-input__minus {
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 100%;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #cc99cc;
+  cursor: pointer;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.pm-input__plus {
+  right: 0;
+  line-height: 38px;
+}
+.pm-input__minus {
+  left: 0;
+  line-height: 40px;
+}
