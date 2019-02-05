@@ -2,25 +2,16 @@ const pmInput = (function () {
 
   // -------------------------------------------------------------------------------------------------------
   interface PlusMinusInputOptions {
-    inputClass?: string;
-    defaultValue?: number;
-    minValue?: number;
-    maxValue?: number;
-    increment?: number;
-    holdDelay?: number;
-    incrementDelay?: number;
-    minusContent?: string;
-    plusContent?: string;
+    inputClass: string;
+    defaultValue: number;
+    minValue: number;
+    maxValue: number;
+    increment: number;
+    holdDelay: number;
+    incrementDelay: number;
+    minusContent: string;
+    plusContent: string;
     [key: string]: string | number;
-  }
-
-  // -------------------------------------------------------------------------------------------------------
-  function mergeOptions(defaultOptions: PlusMinusInputOptions, options: PlusMinusInputOptions) {
-    const resultOptions: PlusMinusInputOptions = {};
-    for (let key in defaultOptions) {
-      resultOptions[key] = options.hasOwnProperty(key) ? options[key] : defaultOptions[key];
-    }
-    return resultOptions;
   }
 
   // -------------------------------------------------------------------------------------------------------
@@ -95,16 +86,16 @@ const pmInput = (function () {
     }
 
     minusOnMousedown(event: Event): void {
-      let value: number;
-      let oldValue: number = parseInt(this.inputElement.value);
+      let startValue: number = parseInt(this.inputElement.value);
       let increment: number = this.options.increment;
+      let value: number;
       this.holdTimerId = setTimeout(() => {
         this.incrementTimerId = setInterval(() => {
           value = parseInt(this.inputElement.value);
           if ((value - increment) > this.options.minValue) {
             value -= increment;
-            if ((oldValue - value) > (increment * 30)) {
-              increment *= 11;
+            if ((startValue - value) > (increment * 20)) {
+              increment *= 2;
             }
           }
           else {
@@ -127,15 +118,16 @@ const pmInput = (function () {
     }
 
     plusOnMousedown(event: Event): void {
-      let oldValue: number = parseInt(this.inputElement.value);
+      let startValue: number = parseInt(this.inputElement.value);
       let increment: number = this.options.increment;
+      let value: number;
       this.holdTimerId = setTimeout(() => {
         this.incrementTimerId = setInterval(() => {
-          let value: number = parseInt(this.inputElement.value);
+          value = parseInt(this.inputElement.value);
           if ((value + increment) < this.options.maxValue) {
             value += increment;
-            if ((value - oldValue) > (increment * 30)) {
-              increment *= 11;
+            if ((value - startValue) > (increment * 20)) {
+              increment *= 2;
             }
           }
           else {
@@ -166,9 +158,9 @@ const pmInput = (function () {
 
   // -------------------------------------------------------------------------------------------------------
 
-  return function plusMinusInputFactory(options: PlusMinusInputOptions): void {
+  return function plusMinusInputFactory(options: Partial<PlusMinusInputOptions> = {}): void {
 
-    const defaultOptions = {
+    const defaultOptions: PlusMinusInputOptions = {
       inputClass: "plus-minus-input",
       defaultValue: 1,
       minValue: 0,
@@ -179,7 +171,7 @@ const pmInput = (function () {
       minusContent: "&minus;",
       plusContent: "&plus;"
     }
-    const opts = mergeOptions(defaultOptions, options);
+    const opts: PlusMinusInputOptions = { ...defaultOptions, ...options };
 
     let elements: NodeListOf<HTMLInputElement>;
 
@@ -211,3 +203,4 @@ const pmInput = (function () {
   // -------------------------------------------------------------------------------------------------------
 
 })();
+

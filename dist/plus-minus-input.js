@@ -1,12 +1,15 @@
-var pmInput = (function () {
-    // -------------------------------------------------------------------------------------------------------
-    function mergeOptions(defaultOptions, options) {
-        var resultOptions = {};
-        for (var key in defaultOptions) {
-            resultOptions[key] = options.hasOwnProperty(key) ? options[key] : defaultOptions[key];
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
         }
-        return resultOptions;
-    }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var pmInput = (function () {
     // -------------------------------------------------------------------------------------------------------
     var PlusMinusInput = /** @class */ (function () {
         function PlusMinusInput(inputElement, options) {
@@ -70,16 +73,16 @@ var pmInput = (function () {
         };
         PlusMinusInput.prototype.minusOnMousedown = function (event) {
             var _this = this;
-            var value;
-            var oldValue = parseInt(this.inputElement.value);
+            var startValue = parseInt(this.inputElement.value);
             var increment = this.options.increment;
+            var value;
             this.holdTimerId = setTimeout(function () {
                 _this.incrementTimerId = setInterval(function () {
                     value = parseInt(_this.inputElement.value);
                     if ((value - increment) > _this.options.minValue) {
                         value -= increment;
-                        if ((oldValue - value) > (increment * 30)) {
-                            increment *= 11;
+                        if ((startValue - value) > (increment * 20)) {
+                            increment *= 2;
                         }
                     }
                     else {
@@ -101,15 +104,16 @@ var pmInput = (function () {
         };
         PlusMinusInput.prototype.plusOnMousedown = function (event) {
             var _this = this;
-            var oldValue = parseInt(this.inputElement.value);
+            var startValue = parseInt(this.inputElement.value);
             var increment = this.options.increment;
+            var value;
             this.holdTimerId = setTimeout(function () {
                 _this.incrementTimerId = setInterval(function () {
-                    var value = parseInt(_this.inputElement.value);
+                    value = parseInt(_this.inputElement.value);
                     if ((value + increment) < _this.options.maxValue) {
                         value += increment;
-                        if ((value - oldValue) > (increment * 30)) {
-                            increment *= 11;
+                        if ((value - startValue) > (increment * 20)) {
+                            increment *= 2;
                         }
                     }
                     else {
@@ -144,6 +148,7 @@ var pmInput = (function () {
     }());
     // -------------------------------------------------------------------------------------------------------
     return function plusMinusInputFactory(options) {
+        if (options === void 0) { options = {}; }
         var defaultOptions = {
             inputClass: "plus-minus-input",
             defaultValue: 1,
@@ -155,7 +160,7 @@ var pmInput = (function () {
             minusContent: "&minus;",
             plusContent: "&plus;"
         };
-        var opts = mergeOptions(defaultOptions, options);
+        var opts = __assign({}, defaultOptions, options);
         var elements;
         try {
             elements = document.querySelectorAll("." + opts.inputClass);
