@@ -4,6 +4,18 @@ Input field with plus and minus buttons.
 
 ### Usage
 
+Add a link to the css file in your `<head>`:
+
+```html
+<link rel="stylesheet" type="text/css" href="plus-minus-input.css"/>
+```
+
+Add a link to the js file before closing `</body>` tag:
+
+```html
+<script src="plus-minus-input.min.js"/>
+```
+
 Call the function. Here is an example with default options:
 
 ```js
