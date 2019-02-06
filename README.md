@@ -1,6 +1,7 @@
 # plus-minus-input
 
 Input field with plus and minus buttons.
+## es5 compatible
 
 ### Usage
 
