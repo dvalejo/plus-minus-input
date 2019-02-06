@@ -32,6 +32,24 @@ pmInput({
 });
 ```
 
+---------------------------------------------------------------------------------
+
+As a result, this input element:
+
+```html
+<input type="text" class="plus-minus-input" name="quantity">
+```
+
+Becomes this:
+
+```html
+<div class="plus-minus-input">
+  <span class="plus-minus-input__minus">−</span>
+  <input type="text" class="plus-minus-input__field" name="quantity" value="1">
+  <span class="plus-minus-input__plus">+</span>
+</div>
+```
+
 #### Options
 
 - `inputClass` - all inputs with this class will be converted,
