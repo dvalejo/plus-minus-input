@@ -1,23 +1,28 @@
-.plus-minus-input {
+.input-counter {
   position: relative;
   min-width: 100px;
 }
-.plus-minus-input__field {
+.input-counter__field {
   box-sizing: border-box;
   width: 100%;
-  height: 40px;
-  padding: 0 40px;
+  height: 36px;
+  padding: 0 36px;
   font-size: 16px;
   text-align: center;
 }
-.plus-minus-input__plus,
-.plus-minus-input__minus {
+.input-counter__field:focus {
+  border: 1px solid #555555;
+  outline: 0;
+}
+.input-counter__plus,
+.input-counter__minus {
   position: absolute;
-  top: 0;
-  width: 40px;
-  height: 100%;
+  top: 1px;
+  width: 34px;
+  height: 34px;
   font-size: 32px;
   font-weight: bold;
+  line-height: 34px;
   text-align: center;
   background-color: #cccccc;
   cursor: pointer;
@@ -27,11 +32,10 @@
   -o-user-select: none;
   user-select: none;
 }
-.plus-minus-input__plus {
-  right: 0;
-  line-height: 38px;
+.input-counter__plus {
+  right: 1px;
+  line-height: 32px;
 }
-.plus-minus-input__minus {
-  left: 0;
-  line-height: 40px;
+.input-counter__minus {
+  left: 1px;
 }

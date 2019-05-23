@@ -1,5 +1,5 @@
 {
-  "name": "plus-minus-input",
+  "name": "input-counter",
   "version": "1.0.0",
   "description": "Input field with plus and minus buttons.",
   "main": "index.js",
@@ -15,7 +15,7 @@
   "scripts": {
     "serve": "http-server ./dist -a localhost -p 8000",
     "watch": "tsc --watch",
-    "build": "tsc && uglifyjs dist/plus-minus-input.js -c -m -o dist/plus-minus-input.min.js",
+    "build": "tsc && uglifyjs dist/input-counter.js -c -m -o dist/input-counter.min.js && tsc --watch",
     "test": "node nightwatch"
   },
   "author": "Valeriy Dmitruk <valera.dmitruk@gmail.com>",
@@ -31,7 +31,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dvalejo/plus-minus-input.git"
+    "url": "https://github.com/dvalejo/input-counter.git"
   },
-  "bugs": "https://github.com/dvalejo/plus-minus-input/issues"
+  "bugs": "https://github.com/dvalejo/input-counter/issues"
 }
