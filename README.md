@@ -25,8 +25,6 @@ pmInput({
   minValue: 0,
   maxValue: 1000,
   increment: 1,
-  minusContent: "&minus;",
-  plusContent: "&plus;"
 });
 ```
 ___
@@ -54,7 +52,3 @@ Becomes this:
 - `minValue` - minumum value of input,
 - `maxValue` - maximum value of input,
 - `increment` - value of an input increment,
-- `holdDelay` - time (in milliseconds) after mousedown to start auto-increment,
-- `incrementDelay` - time (in milliseconds) between auto-increment,
-- `minusContent` - minus symbol to display,
-- `plusContent` - plus symbol to display

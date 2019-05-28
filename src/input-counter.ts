@@ -1,18 +1,16 @@
 const inputCounter = (function () {
 
-  // -------------------------------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------------
   interface InputCounterOptions {
     inputClass: string;
     defaultValue: number;
     minValue: number;
     maxValue: number;
     increment: number;
-    minusContent: string;
-    plusContent: string;
     [key: string]: string | number;
   }
 
-  // -------------------------------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------------
   class InputCounter {
 
     private wrapper: HTMLElement;
@@ -41,9 +39,9 @@ const inputCounter = (function () {
 
       this.wrapper.className = this.options.inputClass;
       this.minusBtn.className = this.options.inputClass + '__minus';
-      this.minusBtn.innerHTML = this.options.minusContent;
+      this.minusBtn.innerHTML = '−';
       this.plusBtn.className = this.options.inputClass + '__plus';
-      this.plusBtn.innerHTML = this.options.plusContent;
+      this.plusBtn.innerHTML = '+';
       this.inputElement.className = this.options.inputClass + '__field';
       this.wrapper.appendChild(this.minusBtn);
       this.wrapper.appendChild(this.inputElement);
@@ -126,9 +124,7 @@ const inputCounter = (function () {
       defaultValue: 1,
       minValue: 0,
       maxValue: 1000,
-      increment: 1,
-      minusContent: '&minus;',
-      plusContent: '&plus;'
+      increment: 1
     }
     const opts: InputCounterOptions = { ...defaultOptions, ...options };
 
@@ -156,10 +152,6 @@ const inputCounter = (function () {
         new InputCounter(elements[i], opts).init();
       }
     }
-    // } else {
-    //   console.warn('InputCounter >> Your collection has 0 elements. Check your inputClass.');
-    //   return;
-    // }
   }
   // -------------------------------------------------------------------------------------------------------
 

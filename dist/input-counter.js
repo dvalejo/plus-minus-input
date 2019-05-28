@@ -10,7 +10,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 var inputCounter = (function () {
-    // -------------------------------------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------------
     var InputCounter = /** @class */ (function () {
         function InputCounter(inputElement, options) {
             this.inputElement = inputElement;
@@ -34,9 +34,9 @@ var inputCounter = (function () {
             var parent = this.inputElement.parentNode;
             this.wrapper.className = this.options.inputClass;
             this.minusBtn.className = this.options.inputClass + '__minus';
-            this.minusBtn.innerHTML = this.options.minusContent;
+            this.minusBtn.innerHTML = '−';
             this.plusBtn.className = this.options.inputClass + '__plus';
-            this.plusBtn.innerHTML = this.options.plusContent;
+            this.plusBtn.innerHTML = '+';
             this.inputElement.className = this.options.inputClass + '__field';
             this.wrapper.appendChild(this.minusBtn);
             this.wrapper.appendChild(this.inputElement);
@@ -116,9 +116,7 @@ var inputCounter = (function () {
             defaultValue: 1,
             minValue: 0,
             maxValue: 1000,
-            increment: 1,
-            minusContent: '&minus;',
-            plusContent: '&plus;'
+            increment: 1
         };
         var opts = __assign({}, defaultOptions, options);
         var elements;
@@ -140,10 +138,6 @@ var inputCounter = (function () {
                 new InputCounter(elements[i], opts).init();
             }
         }
-        // } else {
-        //   console.warn('InputCounter >> Your collection has 0 elements. Check your inputClass.');
-        //   return;
-        // }
     };
     // -------------------------------------------------------------------------------------------------------
 })();
