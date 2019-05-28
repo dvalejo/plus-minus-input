@@ -6,7 +6,7 @@
   "dependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",
-    "chromedriver": "^2.45.0",
+    "chromedriver": "^2.46.0",
     "mocha": "^5.2.0",
     "nightwatch": "^1.0.18",
     "typescript": "^3.2.2",
@@ -15,7 +15,7 @@
   "scripts": {
     "serve": "http-server ./dist -a localhost -p 8000",
     "watch": "tsc --watch",
-    "build": "tsc && uglifyjs dist/input-counter.js -c -m -o dist/input-counter.min.js && tsc --watch",
+    "build": "tsc && uglifyjs dist/input-counter.js -c -m -o dist/input-counter.min.js",
     "test": "node nightwatch"
   },
   "author": "Valeriy Dmitruk <valera.dmitruk@gmail.com>",

@@ -101,9 +101,10 @@ const inputCounter = (function () {
       this.setInputValue(value);
     }
 
-    wheelHandler(event: Event): void {
+    wheelHandler(event: WheelEvent): void {
+      event.preventDefault();
       let value: number = parseInt(this.inputElement.value);
-      this.wheelDelta += (<any>event).deltaY;
+      this.wheelDelta += event.deltaY;
       if (this.wheelDelta > this.oldDelta) {
         // decrement
         this.decrement();
@@ -137,26 +138,28 @@ const inputCounter = (function () {
       elements = document.querySelectorAll('.' + opts.inputClass);
     }
     catch (error) {
-      console.warn('PlusMinusInput >> Please enter a valid inputClass. ' + error);
+      console.warn('InputCounter >> Please enter a valid inputClass. ' + error);
       return;
     }
 
-    if (elements.length === 0) {
-      console.warn('PlusMinusInput >> Your collection has 0 elements. Check your inputClass.');
-      return;
-    }
+    if (elements.length > 0) {
 
-    if (opts.defaultValue < opts.minValue || opts.defaultValue > opts.maxValue) {
-      console.warn('PlusMinusInput >> Default value of input must be more than minValue and less than maxValue');
-    }
+      if (opts.defaultValue < opts.minValue || opts.defaultValue > opts.maxValue) {
+        console.warn('InputCounter >> Default value of input must be more than minValue and less than maxValue');
+      }
 
-    if (opts.minValue > opts.maxValue) {
-      console.warn('PlusMinusInput >> minValue of input must be less than maxValue');
-    }
+      if (opts.minValue > opts.maxValue) {
+        console.warn('InputCounter >> minValue of input must be less than maxValue');
+      }
 
-    for (let i = 0, len = elements.length; i < len; i++) {
-      new InputCounter(elements[i], opts).init();
+      for (let i = 0, len = elements.length; i < len; i++) {
+        new InputCounter(elements[i], opts).init();
+      }
     }
+    // } else {
+    //   console.warn('InputCounter >> Your collection has 0 elements. Check your inputClass.');
+    //   return;
+    // }
   }
   // -------------------------------------------------------------------------------------------------------
 

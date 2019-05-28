@@ -18,8 +18,8 @@
 .input-counter__minus {
   position: absolute;
   top: 1px;
+  bottom: 1px;
   width: 34px;
-  height: 34px;
   font-size: 32px;
   font-weight: bold;
   line-height: 34px;

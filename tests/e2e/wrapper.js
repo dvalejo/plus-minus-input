@@ -1,7 +1,7 @@
 module.exports = {
   "Testing that all html elements are created...": function (browser) {
-    const pminput = browser.page.pminput();
-    pminput.navigate()
+    const inputCounter = browser.page.inputCounter();
+    inputCounter.navigate()
       .assert.elementPresent("@wrapper")
       .assert.elementPresent("@minusBtn")
       .assert.elementPresent("@inputField")

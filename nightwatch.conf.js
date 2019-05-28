@@ -1,7 +1,7 @@
 const chromedriver = require("chromedriver");
 
 module.exports = {
-  src_folders: ["tests/e2e/"],
+  src_folders: ["./tests/e2e/"],
   page_objects_path: ["./tests/pages/"],
   globals_path: "./tests/globals.js",
   test_workers: {
@@ -19,5 +19,5 @@ module.exports = {
         browserName: "chrome"
       }
     }
-  }
+  },
 }
