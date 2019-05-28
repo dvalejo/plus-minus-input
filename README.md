@@ -19,7 +19,7 @@ Add a link to the js file before closing `</body>` tag:
 Call the function. Here is an example with default options:
 
 ```js
-pmInput({
+inputCounter({
   inputClass: "input-counter",
   defaultValue: 1,
   minValue: 0,
