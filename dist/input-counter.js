@@ -17,6 +17,7 @@ var inputCounter = (function () {
             this.options = options;
             this.wheelDelta = 0;
             this.oldDelta = 0;
+            this.disabled = false;
         }
         InputCounter.prototype.init = function () {
             if (this.options.minValue > this.options.maxValue)
@@ -25,7 +26,11 @@ var inputCounter = (function () {
                 this.options.defaultValue = this.options.minValue;
             if (this.options.defaultValue > this.options.maxValue)
                 this.options.defaultValue = this.options.maxValue;
-            this.render().setupEventListeners().setInputValue(this.options.defaultValue);
+            this.render();
+            if (!this.disabled) {
+                this.setupEventListeners();
+            }
+            this.setInputValue(this.options.defaultValue);
         };
         InputCounter.prototype.render = function () {
             this.wrapper = document.createElement('div');
@@ -42,13 +47,15 @@ var inputCounter = (function () {
             this.wrapper.appendChild(this.inputElement);
             this.wrapper.appendChild(this.plusBtn);
             parent.appendChild(this.wrapper);
-            return this;
+            if (this.inputElement.getAttribute('disabled') != null) {
+                this.wrapper.className += (' ' + this.options.inputClass + '--disabled');
+                this.disabled = true;
+            }
         };
         InputCounter.prototype.setInputValue = function (value) {
             value = (typeof value == 'string') ? value : value.toString();
             this.inputElement.value = value;
             this.inputElement.setAttribute('value', value);
-            return this;
         };
         InputCounter.prototype.setupEventListeners = function () {
             var _this = this;
@@ -56,7 +63,6 @@ var inputCounter = (function () {
             this.plusBtn.addEventListener('click', function () { return _this.increment(); });
             this.inputElement.addEventListener('input', function () { return _this.inputHandler(); });
             this.inputElement.addEventListener('wheel', function (event) { return _this.wheelHandler(event); });
-            return this;
         };
         InputCounter.prototype.increment = function () {
             var value = parseInt(this.inputElement.value);

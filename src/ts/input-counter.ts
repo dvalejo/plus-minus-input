@@ -18,6 +18,7 @@ const inputCounter = (function () {
     private plusBtn: HTMLElement;
     private wheelDelta: number = 0;
     private oldDelta: number = 0;
+    private disabled: boolean = false;
 
     constructor(
       private inputElement: HTMLInputElement,
@@ -28,10 +29,14 @@ const inputCounter = (function () {
       if (this.options.minValue > this.options.maxValue) this.options.minValue = this.options.maxValue;
       if (this.options.defaultValue < this.options.minValue) this.options.defaultValue = this.options.minValue;
       if (this.options.defaultValue > this.options.maxValue) this.options.defaultValue = this.options.maxValue;
-      this.render().setupEventListeners().setInputValue(this.options.defaultValue);
+      this.render();
+      if (!this.disabled) {
+        this.setupEventListeners();
+      }
+      this.setInputValue(this.options.defaultValue);
     }
 
-    render(): InputCounter {
+    render(): void {
       this.wrapper = document.createElement('div');
       this.plusBtn = document.createElement('span');
       this.minusBtn = document.createElement('span');
@@ -47,22 +52,24 @@ const inputCounter = (function () {
       this.wrapper.appendChild(this.inputElement);
       this.wrapper.appendChild(this.plusBtn);
       parent.appendChild(this.wrapper);
-      return this;
+
+      if (this.inputElement.getAttribute('disabled') != null) {
+        this.wrapper.className += (' ' + this.options.inputClass + '--disabled');
+        this.disabled = true;
+      }
     }
 
-    setInputValue(value: number | string): InputCounter {
+    setInputValue(value: number | string): void {
       value = (typeof value == 'string') ? value : value.toString();
       this.inputElement.value = value;
       this.inputElement.setAttribute('value', value);
-      return this;
     }
 
-    setupEventListeners(): InputCounter {
+    setupEventListeners(): void {
       this.minusBtn.addEventListener('click', () => this.decrement());
       this.plusBtn.addEventListener('click', () => this.increment());
       this.inputElement.addEventListener('input', () => this.inputHandler());
       this.inputElement.addEventListener('wheel', event => this.wheelHandler(event));
-      return this;
     }
 
     increment(): void {

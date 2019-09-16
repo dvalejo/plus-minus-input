@@ -15,7 +15,7 @@
   "scripts": {
     "serve": "http-server ./dist -a localhost -p 8000",
     "watch": "tsc --watch",
-    "build": "tsc && uglifyjs dist/input-counter.js -c -m -o dist/input-counter.min.js",
+    "build": "tsc && uglifyjs dist/input-counter.js -c -m -o dist/input-counter.min.js && cp -R ./src/css/*.css ./dist/",
     "test": "node nightwatch"
   },
   "author": "Valeriy Dmitruk <valera.dmitruk@gmail.com>",
