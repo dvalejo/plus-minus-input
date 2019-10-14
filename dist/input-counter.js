@@ -15,22 +15,29 @@ var inputCounter = (function () {
         function InputCounter(inputElement, options) {
             this.inputElement = inputElement;
             this.options = options;
-            this.wheelDelta = 0;
-            this.oldDelta = 0;
             this.disabled = false;
+            this.attributes = ['max-value', 'min-value', 'increment'];
         }
         InputCounter.prototype.init = function () {
-            if (this.options.minValue > this.options.maxValue)
-                this.options.minValue = this.options.maxValue;
-            if (this.options.defaultValue < this.options.minValue)
-                this.options.defaultValue = this.options.minValue;
-            if (this.options.defaultValue > this.options.maxValue)
-                this.options.defaultValue = this.options.maxValue;
+            var _this = this;
+            // process ['max-value', 'min-value', 'increment'] attributes
+            this.attributes.forEach(function (attrName) {
+                var attrVal = parseInt(_this.inputElement.getAttribute(attrName));
+                if (!isNaN(attrVal)) {
+                    _this.options[_this.toCamelCase(attrName)] = attrVal;
+                    _this.inputElement.removeAttribute(attrName);
+                }
+            });
+            // process value attribute
+            var attrValue = parseInt(this.inputElement.getAttribute('value'));
+            !isNaN(attrValue) ? this.setInputValue(attrValue) : this.setInputValue(this.options.defaultValue);
+            // process disabled attribute
+            if (this.inputElement.getAttribute('disabled') !== null)
+                this.disabled = true;
             this.render();
             if (!this.disabled) {
                 this.setupEventListeners();
             }
-            this.setInputValue(this.options.defaultValue);
         };
         InputCounter.prototype.render = function () {
             this.wrapper = document.createElement('div');
@@ -47,9 +54,8 @@ var inputCounter = (function () {
             this.wrapper.appendChild(this.inputElement);
             this.wrapper.appendChild(this.plusBtn);
             parent.appendChild(this.wrapper);
-            if (this.inputElement.getAttribute('disabled') != null) {
+            if (this.disabled) {
                 this.wrapper.className += (' ' + this.options.inputClass + '--disabled');
-                this.disabled = true;
             }
         };
         InputCounter.prototype.setInputValue = function (value) {
@@ -57,27 +63,37 @@ var inputCounter = (function () {
             this.inputElement.value = value;
             this.inputElement.setAttribute('value', value);
         };
+        InputCounter.prototype.toCamelCase = function (attrName) {
+            var arr = attrName.split('-');
+            if (arr.length === 1)
+                return attrName;
+            return arr.reduce(function (acc, curr, index) {
+                if (index > 0) {
+                    curr = curr.charAt(0).toLocaleUpperCase() + curr.substring(1);
+                }
+                return acc += curr;
+            });
+        };
         InputCounter.prototype.setupEventListeners = function () {
             var _this = this;
-            this.minusBtn.addEventListener('click', function () { return _this.decrement(); });
-            this.plusBtn.addEventListener('click', function () { return _this.increment(); });
+            this.minusBtn.addEventListener('click', function () { return _this.operation('-'); });
+            this.plusBtn.addEventListener('click', function () { return _this.operation('+'); });
             this.inputElement.addEventListener('input', function () { return _this.inputHandler(); });
             this.inputElement.addEventListener('wheel', function (event) { return _this.wheelHandler(event); });
         };
-        InputCounter.prototype.increment = function () {
+        InputCounter.prototype.operation = function (type) {
             var value = parseInt(this.inputElement.value);
             if (!isNaN(value)) {
-                value = ((value + this.options.increment) < this.options.maxValue) ? (value + this.options.increment) : this.options.maxValue;
-            }
-            else {
-                value = this.options.defaultValue;
-            }
-            this.setInputValue(value);
-        };
-        InputCounter.prototype.decrement = function () {
-            var value = parseInt(this.inputElement.value);
-            if (!isNaN(value)) {
-                value = ((value - this.options.increment) > this.options.minValue) ? (value - this.options.increment) : this.options.minValue;
+                switch (type) {
+                    case '+':
+                        value = ((value + this.options.increment) < this.options.maxValue) ? (value + this.options.increment) : this.options.maxValue;
+                        break;
+                    case '-':
+                        value = ((value - this.options.increment) > this.options.minValue) ? (value - this.options.increment) : this.options.minValue;
+                        break;
+                    default:
+                        break;
+                }
             }
             else {
                 value = this.options.defaultValue;
@@ -99,18 +115,10 @@ var inputCounter = (function () {
         };
         InputCounter.prototype.wheelHandler = function (event) {
             event.preventDefault();
-            var value = parseInt(this.inputElement.value);
-            this.wheelDelta += event.deltaY;
-            if (this.wheelDelta > this.oldDelta) {
-                // decrement
-                this.decrement();
-            }
-            ;
-            if (this.wheelDelta < this.oldDelta) {
-                // increment
-                this.increment();
-            }
-            this.oldDelta = this.wheelDelta;
+            if (event.deltaY > 0)
+                this.operation('-');
+            if (event.deltaY < 0)
+                this.operation('+');
         };
         return InputCounter;
     }());
@@ -124,7 +132,7 @@ var inputCounter = (function () {
             maxValue: 1000,
             increment: 1
         };
-        var opts = __assign({}, defaultOptions, options);
+        var opts = __assign(__assign({}, defaultOptions), options);
         var elements;
         try {
             elements = document.querySelectorAll('.' + opts.inputClass);

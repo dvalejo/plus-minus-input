@@ -1,0 +1,28 @@
+.input-counter__field {
+  padding: 0 26px;
+  border: 1px solid #e7e1d7;
+  border-radius: 5px;
+}
+.input-counter__field:focus {
+  border: 1px solid #a5a5a5;
+  outline: 0;
+}
+.input-counter__plus,
+.input-counter__minus {
+  width: 26px;
+  font-size: 21px;
+  background-color: #f1f1f1;
+  color: #181818;
+}
+.input-counter__plus {
+  border-left: 1px solid #eae2d7;
+  border-radius: 0 5px 5px 0;
+}
+.input-counter__minus {
+  border-right: 1px solid #eae2d7;
+  border-radius: 5px 0 0 5px;
+}
+.input-counter__plus:hover,
+.input-counter__minus:hover {
+  color: #ff0000;
+}

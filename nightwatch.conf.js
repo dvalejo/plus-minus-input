@@ -11,6 +11,9 @@ module.exports = {
   webdriver: {
     start_process: true,
     server_path: chromedriver.path,
+    cli_args: [
+      "--verbose"
+    ],
     port: 9515
   },
   test_settings: {

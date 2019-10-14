@@ -16,9 +16,8 @@ const inputCounter = (function () {
     private wrapper: HTMLElement;
     private minusBtn: HTMLElement;
     private plusBtn: HTMLElement;
-    private wheelDelta: number = 0;
-    private oldDelta: number = 0;
     private disabled: boolean = false;
+    private attributes: string[] = ['max-value', 'min-value', 'increment'];
 
     constructor(
       private inputElement: HTMLInputElement,
@@ -26,14 +25,24 @@ const inputCounter = (function () {
     ) { }
 
     init(): void {
-      if (this.options.minValue > this.options.maxValue) this.options.minValue = this.options.maxValue;
-      if (this.options.defaultValue < this.options.minValue) this.options.defaultValue = this.options.minValue;
-      if (this.options.defaultValue > this.options.maxValue) this.options.defaultValue = this.options.maxValue;
+      // process ['max-value', 'min-value', 'increment'] attributes
+      this.attributes.forEach((attrName: string) => {
+        const attrVal: number = parseInt(this.inputElement.getAttribute(attrName));
+        if (!isNaN(attrVal)) {
+          this.options[this.toCamelCase(attrName)] = attrVal;
+          this.inputElement.removeAttribute(attrName);
+        }
+      });
+      // process value attribute
+      const attrValue: number = parseInt(this.inputElement.getAttribute('value'));
+      !isNaN(attrValue) ? this.setInputValue(attrValue) : this.setInputValue(this.options.defaultValue);
+      // process disabled attribute
+      if (this.inputElement.getAttribute('disabled') !== null) this.disabled = true;
+
       this.render();
       if (!this.disabled) {
         this.setupEventListeners();
       }
-      this.setInputValue(this.options.defaultValue);
     }
 
     render(): void {
@@ -53,9 +62,8 @@ const inputCounter = (function () {
       this.wrapper.appendChild(this.plusBtn);
       parent.appendChild(this.wrapper);
 
-      if (this.inputElement.getAttribute('disabled') != null) {
+      if (this.disabled) {
         this.wrapper.className += (' ' + this.options.inputClass + '--disabled');
-        this.disabled = true;
       }
     }
 
@@ -65,28 +73,37 @@ const inputCounter = (function () {
       this.inputElement.setAttribute('value', value);
     }
 
+    toCamelCase(attrName: string): string {
+      const arr: string[] = attrName.split('-');
+      if (arr.length === 1) return attrName;
+      return arr.reduce((acc, curr, index): string => {
+        if (index > 0) {
+          curr = curr.charAt(0).toLocaleUpperCase() + curr.substring(1);
+        }
+        return acc += curr;
+      });
+    }
+
     setupEventListeners(): void {
-      this.minusBtn.addEventListener('click', () => this.decrement());
-      this.plusBtn.addEventListener('click', () => this.increment());
+      this.minusBtn.addEventListener('click', () => this.operation('-'));
+      this.plusBtn.addEventListener('click', () => this.operation('+'));
       this.inputElement.addEventListener('input', () => this.inputHandler());
       this.inputElement.addEventListener('wheel', event => this.wheelHandler(event));
     }
 
-    increment(): void {
+    operation(type: string): void {
       let value: number = parseInt(this.inputElement.value);
       if (!isNaN(value)) {
-        value = ((value + this.options.increment) < this.options.maxValue) ? (value + this.options.increment) : this.options.maxValue;
-      }
-      else {
-        value = this.options.defaultValue;
-      }
-      this.setInputValue(value);
-    }
-
-    decrement(): void {
-      let value: number = parseInt(this.inputElement.value);
-      if (!isNaN(value)) {
-        value = ((value - this.options.increment) > this.options.minValue) ? (value - this.options.increment) : this.options.minValue;
+        switch (type) {
+          case '+':
+            value = ((value + this.options.increment) < this.options.maxValue) ? (value + this.options.increment) : this.options.maxValue;
+            break;
+          case '-':
+            value = ((value - this.options.increment) > this.options.minValue) ? (value - this.options.increment) : this.options.minValue;
+            break;
+          default:
+            break;
+        }
       }
       else {
         value = this.options.defaultValue;
@@ -108,17 +125,8 @@ const inputCounter = (function () {
 
     wheelHandler(event: WheelEvent): void {
       event.preventDefault();
-      let value: number = parseInt(this.inputElement.value);
-      this.wheelDelta += event.deltaY;
-      if (this.wheelDelta > this.oldDelta) {
-        // decrement
-        this.decrement();
-      };
-      if (this.wheelDelta < this.oldDelta) {
-        // increment
-        this.increment();
-      }
-      this.oldDelta = this.wheelDelta;
+      if (event.deltaY > 0) this.operation('-');
+      if (event.deltaY < 0) this.operation('+');
     }
   }
 
