@@ -73,6 +73,14 @@ const inputCounter = (function () {
       this.inputElement.setAttribute('value', value.toString());
     }
 
+    getInputValue(): number {
+      if (this.inputElement.value === '') return 0;
+      const value: number = parseInt(this.inputElement.value);
+      return !isNaN(value)
+        ? value
+        : this.options.defaultValue;
+    }
+
     toCamelCase(attrName: string): string {
       const arr: string[] = attrName.split('-');
       if (arr.length === 1) return attrName;
@@ -92,34 +100,28 @@ const inputCounter = (function () {
     }
 
     operation(type: string): void {
-      let value: number = parseInt(this.inputElement.value);
-      if (!isNaN(value)) {
-        switch (type) {
-          case '+':
-            value = ((value + this.options.increment) < this.options.maxValue) ? (value + this.options.increment) : this.options.maxValue;
-            break;
-          case '-':
-            value = ((value - this.options.increment) > this.options.minValue) ? (value - this.options.increment) : this.options.minValue;
-            break;
-          default:
-            break;
-        }
-      }
-      else {
-        value = this.options.defaultValue;
+      let value: number = this.getInputValue();
+      switch (type) {
+        case '+':
+          value = ((value + this.options.increment) < this.options.maxValue)
+            ? (value + this.options.increment)
+            : this.options.maxValue;
+          break;
+        case '-':
+          value = ((value - this.options.increment) > this.options.minValue)
+            ? (value - this.options.increment)
+            : this.options.minValue;
+          break;
+        default:
+          break;
       }
       this.setInputValue(value);
     }
 
     inputHandler(): void {
-      let value: number = parseInt(this.inputElement.value);
-      if (!isNaN(value)) {
-        if (value > this.options.maxValue) value = this.options.maxValue;
-        if (value < this.options.minValue) value = this.options.minValue;
-      }
-      else {
-        value = this.options.defaultValue;
-      }
+      let value: number = this.getInputValue();
+      if (value > this.options.maxValue) value = this.options.maxValue;
+      if (value < this.options.minValue) value = this.options.minValue;
       this.setInputValue(value);
     }
 
