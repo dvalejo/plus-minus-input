@@ -2,7 +2,7 @@ const inputCounter = (function () {
 
   // --------------------------------------------------------------------------------------
   interface InputCounterOptions {
-    inputClass: string;
+    selector: string,
     defaultValue: number;
     minValue: number;
     maxValue: number;
@@ -18,6 +18,7 @@ const inputCounter = (function () {
     private plusBtn: HTMLElement;
     private disabled: boolean = false;
     private attributes: string[] = ['max-value', 'min-value', 'increment'];
+    private baseClass: string = 'input-counter';
 
     constructor(
       private inputElement: HTMLInputElement,
@@ -51,19 +52,19 @@ const inputCounter = (function () {
       this.minusBtn = document.createElement('span');
       const parent: Node = this.inputElement.parentNode;
 
-      this.wrapper.className = this.options.inputClass;
-      this.minusBtn.className = this.options.inputClass + '__minus';
+      this.wrapper.className = this.baseClass;
+      this.minusBtn.className = this.baseClass + '__minus';
       this.minusBtn.innerHTML = '−';
-      this.plusBtn.className = this.options.inputClass + '__plus';
+      this.plusBtn.className = this.baseClass + '__plus';
       this.plusBtn.innerHTML = '+';
-      this.inputElement.className = this.options.inputClass + '__field';
+      this.inputElement.className = (this.inputElement.className + (' ' + this.baseClass + '__field')).trim();
       this.wrapper.appendChild(this.minusBtn);
       this.wrapper.appendChild(this.inputElement);
       this.wrapper.appendChild(this.plusBtn);
       parent.appendChild(this.wrapper);
 
       if (this.disabled) {
-        this.wrapper.className += (' ' + this.options.inputClass + '--disabled');
+        this.wrapper.className += (' ' + this.baseClass + '--disabled');
       }
     }
 
@@ -135,7 +136,7 @@ const inputCounter = (function () {
   return function inputCounterFactory(options: Partial<InputCounterOptions> = {}): void {
 
     const defaultOptions: InputCounterOptions = {
-      inputClass: 'input-counter',
+      selector: '',
       defaultValue: 1,
       minValue: 0,
       maxValue: 1000,
@@ -144,25 +145,15 @@ const inputCounter = (function () {
     const opts: InputCounterOptions = { ...defaultOptions, ...options };
 
     let elements: NodeListOf<HTMLInputElement>;
-
     try {
-      elements = document.querySelectorAll('.' + opts.inputClass);
+      elements = document.querySelectorAll(opts.selector);
     }
     catch (error) {
-      console.warn('InputCounter >> Please enter a valid inputClass. ' + error);
+      console.warn('InputCounter >> Please enter a valid selector. ' + error);
       return;
     }
 
     if (elements.length > 0) {
-
-      if (opts.defaultValue < opts.minValue || opts.defaultValue > opts.maxValue) {
-        console.warn('InputCounter >> Default value of input must be more than minValue and less than maxValue');
-      }
-
-      if (opts.minValue > opts.maxValue) {
-        console.warn('InputCounter >> minValue of input must be less than maxValue');
-      }
-
       for (let i = 0, len = elements.length; i < len; i++) {
         new InputCounter(elements[i], opts).init();
       }
