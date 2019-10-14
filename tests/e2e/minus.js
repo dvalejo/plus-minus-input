@@ -1,5 +1,4 @@
 module.exports = {
-
   "Testing clicks on minus button": function (browser) {
     const inputCounter = browser.page.inputCounter();
     inputCounter.navigate()
@@ -15,7 +14,6 @@ module.exports = {
         this.assert.equal(result.value, 22);
       });
   },
-
   after: function (browser) {
     browser.end();
   }

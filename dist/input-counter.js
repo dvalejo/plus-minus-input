@@ -33,8 +33,7 @@ var inputCounter = (function () {
             var attrValue = parseInt(this.inputElement.getAttribute('value'));
             !isNaN(attrValue) ? this.setInputValue(attrValue) : this.setInputValue(this.options.defaultValue);
             // process disabled attribute
-            if (this.inputElement.getAttribute('disabled') !== null)
-                this.disabled = true;
+            this.disabled = (this.inputElement.getAttribute('disabled') !== null) ? true : false;
             this.render();
             if (!this.disabled) {
                 this.setupEventListeners();
@@ -60,9 +59,8 @@ var inputCounter = (function () {
             }
         };
         InputCounter.prototype.setInputValue = function (value) {
-            value = (typeof value == 'string') ? value : value.toString();
-            this.inputElement.value = value;
-            this.inputElement.setAttribute('value', value);
+            this.inputElement.value = value.toString();
+            this.inputElement.setAttribute('value', value.toString());
         };
         InputCounter.prototype.toCamelCase = function (attrName) {
             var arr = attrName.split('-');
