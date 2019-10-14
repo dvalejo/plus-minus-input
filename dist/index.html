@@ -38,20 +38,20 @@
     architecto reiciendis minus hic harum, deleniti molestiae.</p>
 
   <form action="">
-    <p><input type="text" class="catalog-item__counter" name="in-p-1" min-value="-10" max-value="10" increment="1" value="5"></p>
+    <p><input type="text" class="catalog-item__counter" name="in-p-1" min-value="-10" max-value="10" increment="1"></p>
   </form>
 
   <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia porro ea, earum, laudantium minus nulla est qui officiis consequuntur facilis excepturi tempora quisquam recusandae illum? In quis eveniet exercitationem, adipisci minima amet cumque est fuga illo labore aut molestias, distinctio accusantium provident, consequuntur mollitia? Eius, provident nemo! Nam, illum dolorem.</p>
 
   <form action="">
-    <p><input type="text" class="buy-form__counter" name="in-p-1" min-value="-10" max-value="10" increment="5" value="5" disabled></p>
+    <p><input type="text" class="buy-form__counter" name="in-p-1" min-value="-10" max-value="10" increment="5" value="5"></p>
   </form>
 
   <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia porro ea, earum, laudantium minus nulla est qui officiis consequuntur facilis excepturi tempora quisquam recusandae illum? In quis eveniet exercitationem, adipisci minima amet cumque est fuga illo labore aut molestias, distinctio accusantium provident, consequuntur mollitia? Eius, provident nemo! Nam, illum dolorem.</p>
 
   <form action="">
     fsdfsdf
-    <p><input type="text" class="my-counter" name="in-p-2" value="0" disabled></p>
+    <p><input type="text" id="my-counter" name="in-p-2" value="0" disabled></p>
   </form>
 
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque iste voluptatem dicta mollitia totam nisi
@@ -82,8 +82,9 @@
 
   <script src="./input-counter.js"></script>
   <script>
-    inputCounter();
-    inputCounter({ inputClass: 'input-counter-2' });
+    inputCounter({ selector: '.catalog-item__counter' });
+    inputCounter({ selector: '.buy-form__counter' });
+    inputCounter({ selector: '#my-counter' });
   </script>
 </body>
 

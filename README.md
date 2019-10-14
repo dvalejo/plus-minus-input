@@ -20,7 +20,7 @@ Call the function. Here is an example with default options:
 
 ```js
 inputCounter({
-  inputClass: "input-counter",
+  selector: "my-counter",
   defaultValue: 1,
   minValue: 0,
   maxValue: 1000,
@@ -32,7 +32,7 @@ ___
 As a result, this input element:
 
 ```html
-<input type="text" class="input-counter" name="quantity">
+<input type="text" class="my-counter" name="quantity">
 ```
 
 Becomes this:
@@ -40,14 +40,20 @@ Becomes this:
 ```html
 <div class="input-counter">
   <span class="input-counter__minus">−</span>
-  <input type="text" class="input-counter__field" name="quantity" value="1">
+  <input type="text" class="my-counter input-counter__field" name="quantity" value="1">
   <span class="input-counter__plus">+</span>
 </div>
 ```
 
+The same result can be achieved with HTML attributes instead of options object:
+
+```html
+<input type="text" class="my-counter" name="quantity" max-value="1000" min-value="0" increment="1" value="1">
+```
+
 #### Options
 
-- `inputClass` - all inputs with this class will be converted,
+- `selector` - all inputs that match this selector will be converted,
 - `defaultValue` - value of input after convertion,
 - `minValue` - minumum value of input,
 - `maxValue` - maximum value of input,
