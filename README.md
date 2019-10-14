@@ -27,8 +27,6 @@ inputCounter({
   increment: 1,
 });
 ```
-___
-
 As a result, this input element:
 
 ```html
