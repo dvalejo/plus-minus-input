@@ -41,21 +41,41 @@ var inputCounter = (function () {
         };
         InputCounter.prototype.render = function () {
             this.wrapper = document.createElement('div');
-            this.plusBtn = document.createElement('span');
-            this.minusBtn = document.createElement('span');
+            this.plusBtn = document.createElement('button');
+            this.minusBtn = document.createElement('button');
             var parent = this.inputElement.parentNode;
-            this.wrapper.className = this.baseClass;
+            this.wrapper.className = this.inputElement.className + ' ' + this.baseClass;
+            this.minusBtn.setAttribute('type', 'button');
             this.minusBtn.className = this.baseClass + '__minus';
             this.minusBtn.innerHTML = '−';
+            this.plusBtn.setAttribute('type', 'button');
             this.plusBtn.className = this.baseClass + '__plus';
             this.plusBtn.innerHTML = '+';
-            this.inputElement.className = (this.inputElement.className + (' ' + this.baseClass + '__field')).trim();
+            this.inputElement.className = this.baseClass + '__field';
             this.wrapper.appendChild(this.minusBtn);
             this.wrapper.appendChild(this.inputElement);
             this.wrapper.appendChild(this.plusBtn);
             parent.appendChild(this.wrapper);
             if (this.disabled) {
                 this.wrapper.className += (' ' + this.baseClass + '--disabled');
+                this.plusBtn.setAttribute('disabled', 'disabled');
+                this.minusBtn.setAttribute('disabled', 'disabled');
+            }
+        };
+        InputCounter.prototype.checkMinusDisable = function () {
+            var isPlusDisabled = this.plusBtn.getAttribute('disabled') !== null;
+            if (isPlusDisabled)
+                this.plusBtn.removeAttribute('disabled');
+            if (this.getInputValue() == this.options.minValue) {
+                this.minusBtn.setAttribute('disabled', 'disabled');
+            }
+        };
+        InputCounter.prototype.checkPlusDisable = function () {
+            var isMinusDisabled = this.minusBtn.getAttribute('disabled') !== null;
+            if (isMinusDisabled)
+                this.minusBtn.removeAttribute('disabled');
+            if (this.getInputValue() == this.options.maxValue) {
+                this.plusBtn.setAttribute('disabled', 'disabled');
             }
         };
         InputCounter.prototype.setInputValue = function (value) {
@@ -83,28 +103,26 @@ var inputCounter = (function () {
         };
         InputCounter.prototype.setupEventListeners = function () {
             var _this = this;
-            this.minusBtn.addEventListener('click', function () { return _this.operation('-'); });
-            this.plusBtn.addEventListener('click', function () { return _this.operation('+'); });
+            this.minusBtn.addEventListener('click', function () { return _this.decrement(); });
+            this.plusBtn.addEventListener('click', function () { return _this.increment(); });
             this.inputElement.addEventListener('input', function () { return _this.inputHandler(); });
             this.inputElement.addEventListener('wheel', function (event) { return _this.wheelHandler(event); });
         };
-        InputCounter.prototype.operation = function (type) {
+        InputCounter.prototype.increment = function () {
             var value = this.getInputValue();
-            switch (type) {
-                case '+':
-                    value = ((value + this.options.increment) < this.options.maxValue)
-                        ? (value + this.options.increment)
-                        : this.options.maxValue;
-                    break;
-                case '-':
-                    value = ((value - this.options.increment) > this.options.minValue)
-                        ? (value - this.options.increment)
-                        : this.options.minValue;
-                    break;
-                default:
-                    break;
-            }
+            value = ((value + this.options.increment) < this.options.maxValue)
+                ? (value + this.options.increment)
+                : this.options.maxValue;
             this.setInputValue(value);
+            this.checkPlusDisable();
+        };
+        InputCounter.prototype.decrement = function () {
+            var value = this.getInputValue();
+            value = ((value - this.options.increment) > this.options.minValue)
+                ? (value - this.options.increment)
+                : this.options.minValue;
+            this.setInputValue(value);
+            this.checkMinusDisable();
         };
         InputCounter.prototype.inputHandler = function () {
             var value = this.getInputValue();
@@ -117,9 +135,9 @@ var inputCounter = (function () {
         InputCounter.prototype.wheelHandler = function (event) {
             event.preventDefault();
             if (event.deltaY > 0)
-                this.operation('-');
+                this.decrement();
             if (event.deltaY < 0)
-                this.operation('+');
+                this.increment();
         };
         return InputCounter;
     }());

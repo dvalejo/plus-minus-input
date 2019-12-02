@@ -8,10 +8,10 @@ module.exports = {
       .click("@minusBtn")
       .click("@minusBtn")
       .getValue("@inputField", function (result) {
-        this.assert.equal(result.value, 22);
+        this.assert.equal(result.value, 10);
       })
       .getAttribute("@inputField", "value", function (result) {
-        this.assert.equal(result.value, 22);
+        this.assert.equal(result.value, 10);
       });
   },
   after: function (browser) {

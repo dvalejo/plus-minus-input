@@ -7,78 +7,48 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <link rel="stylesheet" href="./input-counter.css">
+  <!-- <link rel="stylesheet" href="./input-counter-theme.css"> -->
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    .centered {
+      display: flex;
+      height: 100%;
+    }
+
+    .centered__inner {
+      width: 640px;
+      height: 500px;
+      margin: auto;
+    }
+  </style>
 </head>
 
 <body>
 
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque iste voluptatem dicta mollitia totam nisi
-    pariatur fugiat consectetur? Facilis, assumenda labore quibusdam illo quas laborum id cumque veniam repellendus.
-    Facere mollitia fuga iusto praesentium minus tenetur aperiam magnam! Corrupti rem aut, recusandae vel impedit quia
-    voluptate nulla in similique consectetur obcaecati voluptatum nihil excepturi temporibus nemo, ab dolores est qui.
-    Dolorem, dolore, voluptatum pariatur voluptatibus tempore nostrum commodi at cum adipisci aliquid ipsum neque
-    numquam fugit esse distinctio minus placeat saepe. Eligendi tempore quas sapiente ipsa magnam necessitatibus, saepe
-    quia odio. Reprehenderit corporis alias laudantium, error asperiores pariatur minus amet cumque adipisci omnis
-    assumenda est ullam dolores eius molestias illum tenetur at inventore saepe animi! Praesentium beatae rem qui
-    soluta, ex quibusdam ratione quaerat sit numquam. Minima voluptatum rem ex necessitatibus, doloremque iste quaerat
-    beatae exercitationem ad asperiores suscipit vel sunt illo, quibusdam id! Exercitationem earum facere sint suscipit
-    alias ipsum modi voluptatum corporis incidunt eaque quas distinctio rem, veniam facilis! Sint consequuntur eos harum
-    ullam, alias in eveniet numquam incidunt quod iste recusandae ducimus amet ipsum minima sed vitae placeat tenetur
-    voluptatibus atque accusamus. Nostrum amet quisquam sed iste, fugit, ipsum quam consequatur quasi natus facere dolor
-    modi! Odit reiciendis incidunt suscipit tempora quasi? Magni, enim quo, non architecto debitis sunt numquam neque
-    ratione totam at saepe illo explicabo, accusantium ipsa? Rem eum illo, illum officia quasi sed dolores suscipit
-    veniam, aliquid esse eaque porro nesciunt quod beatae cupiditate, repellendus at. Ratione quod fugiat deserunt ab
-    adipisci officia repellendus saepe aspernatur commodi id. Deleniti harum, laborum repellat molestias, nihil eos quo
-    doloribus sunt ducimus expedita animi qui porro officiis quam quibusdam quae eius ut numquam quis provident odio!
-    Laboriosam pariatur at asperiores. Sint, ipsa et velit assumenda praesentium quos. Beatae, aut? Beatae, molestiae
-    illo veniam velit dolorem possimus, exercitationem nulla quisquam aperiam quidem quis, placeat culpa sed dolore
-    ipsam obcaecati perferendis nesciunt cum blanditiis doloremque. At velit recusandae nam distinctio sint vel repellat
-    beatae, vero, officiis qui facere sapiente eveniet. Velit animi reiciendis corrupti ad accusantium voluptates eos
-    harum nemo dignissimos ipsum quidem, nulla aspernatur corporis labore. Beatae odit alias nihil tempore,
-    exercitationem, reprehenderit non voluptatem dolores ab nostrum at dicta eveniet explicabo porro iste cumque
-    architecto reiciendis minus hic harum, deleniti molestiae.</p>
+  <div class="centered">
+    <div class="centered__inner">
 
-  <form action="">
-    <p><input type="text" class="catalog-item__counter" name="in-p-1"></p>
-  </form>
+      <h2>Example:</h2>
 
-  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia porro ea, earum, laudantium minus nulla est qui officiis consequuntur facilis excepturi tempora quisquam recusandae illum? In quis eveniet exercitationem, adipisci minima amet cumque est fuga illo labore aut molestias, distinctio accusantium provident, consequuntur mollitia? Eius, provident nemo! Nam, illum dolorem.</p>
+      <form action="">
+        <p>
+          <input type="text" class="catalog-item__counter" name="in-p-1" max-value="100" min-value="-100" increment="5" value="10">
+        </p>
+      </form>
 
-  <form action="">
-    <p><input type="text" class="buy-form__counter" name="in-p-1" min-value="-100" max-value="100" increment="5" value="5"></p>
-  </form>
+      <h2>Disabled state:</h2>
 
-  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia porro ea, earum, laudantium minus nulla est qui officiis consequuntur facilis excepturi tempora quisquam recusandae illum? In quis eveniet exercitationem, adipisci minima amet cumque est fuga illo labore aut molestias, distinctio accusantium provident, consequuntur mollitia? Eius, provident nemo! Nam, illum dolorem.</p>
-
-  <form action="">
-    fsdfsdf
-    <p><input type="text" id="my-counter" name="in-p-2" value="0" disabled></p>
-  </form>
-
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque iste voluptatem dicta mollitia totam nisi
-    pariatur fugiat consectetur? Facilis, assumenda labore quibusdam illo quas laborum id cumque veniam repellendus.
-    Facere mollitia fuga iusto praesentium minus tenetur aperiam magnam! Corrupti rem aut, recusandae vel impedit quia
-    voluptate nulla in similique consectetur obcaecati voluptatum nihil excepturi temporibus nemo, ab dolores est qui.
-    Dolorem, dolore, voluptatum pariatur voluptatibus tempore nostrum commodi at cum adipisci aliquid ipsum neque
-    numquam fugit esse distinctio minus placeat saepe. Eligendi tempore quas sapiente ipsa magnam necessitatibus, saepe
-    quia odio. Reprehenderit corporis alias laudantium, error asperiores pariatur minus amet cumque adipisci omnis
-    assumenda est ullam dolores eius molestias illum tenetur at inventore saepe animi! Praesentium beatae rem qui
-    soluta, ex quibusdam ratione quaerat sit numquam. Minima voluptatum rem ex necessitatibus, doloremque iste quaerat
-    beatae exercitationem ad asperiores suscipit vel sunt illo, quibusdam id! Exercitationem earum facere sint suscipit
-    alias ipsum modi voluptatum corporis incidunt eaque quas distinctio rem, veniam facilis! Sint consequuntur eos harum
-    ullam, alias in eveniet numquam incidunt quod iste recusandae ducimus amet ipsum minima sed vitae placeat tenetur
-    voluptatibus atque accusamus. Nostrum amet quisquam sed iste, fugit, ipsum quam consequatur quasi natus facere dolor
-    modi! Odit reiciendis incidunt suscipit tempora quasi? Magni, enim quo, non architecto debitis sunt numquam neque
-    ratione totam at saepe illo explicabo, accusantium ipsa? Rem eum illo, illum officia quasi sed dolores suscipit
-    veniam, aliquid esse eaque porro nesciunt quod beatae cupiditate, repellendus at. Ratione quod fugiat deserunt ab
-    adipisci officia repellendus saepe aspernatur commodi id. Deleniti harum, laborum repellat molestias, nihil eos quo
-    doloribus sunt ducimus expedita animi qui porro officiis quam quibusdam quae eius ut numquam quis provident odio!
-    Laboriosam pariatur at asperiores. Sint, ipsa et velit assumenda praesentium quos. Beatae, aut? Beatae, molestiae
-    illo veniam velit dolorem possimus, exercitationem nulla quisquam aperiam quidem quis, placeat culpa sed dolore
-    ipsam obcaecati perferendis nesciunt cum blanditiis doloremque. At velit recusandae nam distinctio sint vel repellat
-    beatae, vero, officiis qui facere sapiente eveniet. Velit animi reiciendis corrupti ad accusantium voluptates eos
-    harum nemo dignissimos ipsum quidem, nulla aspernatur corporis labore. Beatae odit alias nihil tempore,
-    exercitationem, reprehenderit non voluptatem dolores ab nostrum at dicta eveniet explicabo porro iste cumque
-    architecto reiciendis minus hic harum, deleniti molestiae.</p>
+      <form action="">
+        <p>
+          <input type="text" id="my-counter" name="in-p-2" value="0" disabled>
+        </p>
+      </form>
+    </div>
+  </div>
 
   <script src="./input-counter.js"></script>
   <script>

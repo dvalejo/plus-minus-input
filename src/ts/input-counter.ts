@@ -48,16 +48,18 @@ const inputCounter = (function () {
 
     render(): void {
       this.wrapper = document.createElement('div');
-      this.plusBtn = document.createElement('span');
-      this.minusBtn = document.createElement('span');
+      this.plusBtn = document.createElement('button');
+      this.minusBtn = document.createElement('button');
       const parent: Node = this.inputElement.parentNode;
 
-      this.wrapper.className = this.baseClass;
+      this.wrapper.className = this.inputElement.className + ' ' + this.baseClass;
+      this.minusBtn.setAttribute('type', 'button');
       this.minusBtn.className = this.baseClass + '__minus';
       this.minusBtn.innerHTML = '−';
+      this.plusBtn.setAttribute('type', 'button');
       this.plusBtn.className = this.baseClass + '__plus';
       this.plusBtn.innerHTML = '+';
-      this.inputElement.className = (this.inputElement.className + (' ' + this.baseClass + '__field')).trim();
+      this.inputElement.className = this.baseClass + '__field';
       this.wrapper.appendChild(this.minusBtn);
       this.wrapper.appendChild(this.inputElement);
       this.wrapper.appendChild(this.plusBtn);
@@ -65,6 +67,24 @@ const inputCounter = (function () {
 
       if (this.disabled) {
         this.wrapper.className += (' ' + this.baseClass + '--disabled');
+        this.plusBtn.setAttribute('disabled', 'disabled');
+        this.minusBtn.setAttribute('disabled', 'disabled');
+      }
+    }
+
+    checkMinusDisable(): void {
+      const isPlusDisabled = this.plusBtn.getAttribute('disabled') !== null;
+      if (isPlusDisabled) this.plusBtn.removeAttribute('disabled');
+      if (this.getInputValue() == this.options.minValue) {
+        this.minusBtn.setAttribute('disabled', 'disabled');
+      }
+    }
+
+    checkPlusDisable(): void {
+      const isMinusDisabled = this.minusBtn.getAttribute('disabled') !== null;
+      if (isMinusDisabled) this.minusBtn.removeAttribute('disabled');
+      if (this.getInputValue() == this.options.maxValue) {
+        this.plusBtn.setAttribute('disabled', 'disabled');
       }
     }
 
@@ -93,29 +113,28 @@ const inputCounter = (function () {
     }
 
     setupEventListeners(): void {
-      this.minusBtn.addEventListener('click', () => this.operation('-'));
-      this.plusBtn.addEventListener('click', () => this.operation('+'));
+      this.minusBtn.addEventListener('click', () => this.decrement());
+      this.plusBtn.addEventListener('click', () => this.increment());
       this.inputElement.addEventListener('input', () => this.inputHandler());
       this.inputElement.addEventListener('wheel', event => this.wheelHandler(event));
     }
 
-    operation(type: string): void {
+    increment(): void {
       let value: number = this.getInputValue();
-      switch (type) {
-        case '+':
-          value = ((value + this.options.increment) < this.options.maxValue)
-            ? (value + this.options.increment)
-            : this.options.maxValue;
-          break;
-        case '-':
-          value = ((value - this.options.increment) > this.options.minValue)
-            ? (value - this.options.increment)
-            : this.options.minValue;
-          break;
-        default:
-          break;
-      }
+      value = ((value + this.options.increment) < this.options.maxValue)
+        ? (value + this.options.increment)
+        : this.options.maxValue;
       this.setInputValue(value);
+      this.checkPlusDisable();
+    }
+
+    decrement() {
+      let value: number = this.getInputValue();
+      value = ((value - this.options.increment) > this.options.minValue)
+        ? (value - this.options.increment)
+        : this.options.minValue;
+      this.setInputValue(value);
+      this.checkMinusDisable();
     }
 
     inputHandler(): void {
@@ -127,8 +146,8 @@ const inputCounter = (function () {
 
     wheelHandler(event: WheelEvent): void {
       event.preventDefault();
-      if (event.deltaY > 0) this.operation('-');
-      if (event.deltaY < 0) this.operation('+');
+      if (event.deltaY > 0) this.decrement();
+      if (event.deltaY < 0) this.increment();
     }
   }
 
