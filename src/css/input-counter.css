@@ -23,11 +23,14 @@
   top: 1px;
   bottom: 1px;
   width: 34px;
-  font-size: 32px;
+  padding: 0;
+  font-size: 30px;
   font-weight: bold;
-  line-height: 34px;
+  line-height: 33px;
+  border: 0;
   text-align: center;
   background-color: #cccccc;
+  color: #000000;
   cursor: pointer;
   -moz-user-select: none;
   -khtml-user-select: none;
@@ -37,19 +40,25 @@
 }
 .input-counter__plus {
   right: 1px;
-  line-height: 32px;
 }
 .input-counter__minus {
   left: 1px;
 }
+.input-counter__plus:hover,
+.input-counter__minus:hover {
+  color: #ff0000;
+}
+.input-counter__plus:focus,
+.input-counter__minus:focus {
+  /* outline: 0; */
+}
 
 /* disabled state */
 /* ---------------------------------------- */
-.input-counter--disabled {}
-.input-counter--disabled .input-counter__plus,
-.input-counter--disabled .input-counter__minus {
+.input-counter__plus:disabled,
+.input-counter__minus:disabled {
   color: #909090;
 }
-.input-counter--disabled .input-counter__field {
+.input-counter__field:disabled {
   color: #a5a5a5;
 }
