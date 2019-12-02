@@ -37,9 +37,9 @@ Becomes this:
 
 ```html
 <div class="input-counter">
-  <span class="input-counter__minus">−</span>
+  <button class="input-counter__minus">−</button>
   <input type="text" class="my-counter input-counter__field" name="quantity" value="1">
-  <span class="input-counter__plus">+</span>
+  <button class="input-counter__plus">+</button>
 </div>
 ```
 
