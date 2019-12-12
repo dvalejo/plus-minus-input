@@ -4,17 +4,29 @@
   "description": "Input field with plus and minus buttons.",
   "main": "index.js",
   "dependencies": {
-    "webdriver-manager": "^12.1.6"
+    "webdriver-manager": "^12.1.7"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chromedriver": "^2.46.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.3.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.8.0",
     "mocha": "^5.2.0",
-    "nightwatch": "^1.2.2",
-    "typescript": "^3.6.3",
-    "uglify-js": "^3.6.0"
+    "nightwatch": "^1.3.2",
+    "style-loader": "^1.0.1",
+    "terser-webpack-plugin": "^2.2.2",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.3",
+    "uglify-js": "^3.7.2",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   },
   "scripts": {
+    "prod": "set NODE_ENV=production&& webpack --mode production",
+    "dev": "set NODE_ENV=development&& webpack-dev-server --mode development",
     "serve": "http-server ./dist -a localhost -p 8000",
     "watch": "tsc --watch",
     "build": "tsc && uglifyjs dist/input-counter.js -c -m -o dist/input-counter.min.js && cp -R ./src/css/*.css ./dist/",

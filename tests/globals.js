@@ -1,8 +1,9 @@
+
 const defaultOptions = {
   defaultValue: 10,
-  minValue: 0,
+  minValue: -100,
   maxValue: 100,
-  increment: 15
+  increment: 5
 }
 
 module.exports = {

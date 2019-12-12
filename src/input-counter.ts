@@ -1,9 +1,11 @@
+
+import './css/input-counter.css';
+
 const inputCounter = (function () {
 
   // --------------------------------------------------------------------------------------
   interface InputCounterOptions {
     selector: string,
-    defaultValue: number;
     minValue: number;
     maxValue: number;
     increment: number;
@@ -14,9 +16,10 @@ const inputCounter = (function () {
   class InputCounter {
 
     private wrapper: HTMLElement;
-    private minusBtn: HTMLElement;
-    private plusBtn: HTMLElement;
+    private minusBtn: HTMLButtonElement;
+    private plusBtn: HTMLButtonElement;
     private disabled: boolean = false;
+    private defaultValue: number = 0;
     private attributes: string[] = ['max-value', 'min-value', 'increment'];
     private baseClass: string = 'input-counter';
 
@@ -35,10 +38,12 @@ const inputCounter = (function () {
         }
       });
       // process value attribute
-      const attrValue: number = parseInt(this.inputElement.getAttribute('value'));
-      !isNaN(attrValue) ? this.setInputValue(attrValue) : this.setInputValue(this.options.defaultValue);
+      const value: number = parseInt(this.inputElement.getAttribute('value'));
+      this.defaultValue = !isNaN(value) ? value : this.defaultValue;
+      this.setInputValue(this.defaultValue);
+
       // process disabled attribute
-      this.disabled = (this.inputElement.getAttribute('disabled') !== null) ? true : false;
+      this.disabled = this.inputElement.disabled;
 
       this.render();
       if (!this.disabled) {
@@ -67,38 +72,30 @@ const inputCounter = (function () {
 
       if (this.disabled) {
         this.wrapper.className += (' ' + this.baseClass + '--disabled');
-        this.plusBtn.setAttribute('disabled', 'disabled');
-        this.minusBtn.setAttribute('disabled', 'disabled');
+        this.plusBtn.disabled = true;
+        this.minusBtn.disabled = true;
       }
     }
 
-    checkMinusDisable(): void {
-      const isPlusDisabled = this.plusBtn.getAttribute('disabled') !== null;
-      if (isPlusDisabled) this.plusBtn.removeAttribute('disabled');
-      if (this.getInputValue() == this.options.minValue) {
-        this.minusBtn.setAttribute('disabled', 'disabled');
-      }
+    checkMinusDisable(value: number): void {
+      if (this.plusBtn.disabled) this.plusBtn.disabled = false;
+      if (value == this.options.minValue) this.minusBtn.disabled = true;
     }
 
-    checkPlusDisable(): void {
-      const isMinusDisabled = this.minusBtn.getAttribute('disabled') !== null;
-      if (isMinusDisabled) this.minusBtn.removeAttribute('disabled');
-      if (this.getInputValue() == this.options.maxValue) {
-        this.plusBtn.setAttribute('disabled', 'disabled');
-      }
+    checkPlusDisable(value: number): void {
+      if (this.minusBtn.disabled) this.minusBtn.disabled = false;
+      if (value == this.options.maxValue) this.plusBtn.disabled = true;
     }
 
     setInputValue(value: number | string): void {
       this.inputElement.value = value.toString();
-      this.inputElement.setAttribute('value', value.toString());
     }
 
     getInputValue(): number {
-      if (this.inputElement.value === '') return 0;
-      const value: number = parseInt(this.inputElement.value);
-      return !isNaN(value)
-        ? value
-        : this.options.defaultValue;
+      const value = this.inputElement.value;
+      const parsed = parseInt(value);
+      // if (value === '') return 0;
+      return !isNaN(parsed) ? parsed : this.defaultValue;
     }
 
     toCamelCase(attrName: string): string {
@@ -115,7 +112,7 @@ const inputCounter = (function () {
     setupEventListeners(): void {
       this.minusBtn.addEventListener('click', () => this.decrement());
       this.plusBtn.addEventListener('click', () => this.increment());
-      this.inputElement.addEventListener('input', () => this.inputHandler());
+      this.inputElement.addEventListener('change', () => this.inputHandler());
       this.inputElement.addEventListener('wheel', event => this.wheelHandler(event));
     }
 
@@ -125,7 +122,7 @@ const inputCounter = (function () {
         ? (value + this.options.increment)
         : this.options.maxValue;
       this.setInputValue(value);
-      this.checkPlusDisable();
+      this.checkPlusDisable(value);
     }
 
     decrement() {
@@ -134,7 +131,7 @@ const inputCounter = (function () {
         ? (value - this.options.increment)
         : this.options.minValue;
       this.setInputValue(value);
-      this.checkMinusDisable();
+      this.checkMinusDisable(value);
     }
 
     inputHandler(): void {
@@ -157,7 +154,6 @@ const inputCounter = (function () {
 
     const defaultOptions: InputCounterOptions = {
       selector: '',
-      defaultValue: 1,
       minValue: 0,
       maxValue: 1000,
       increment: 1
@@ -183,3 +179,4 @@ const inputCounter = (function () {
 
 })();
 
+export { inputCounter };
