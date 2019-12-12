@@ -21,7 +21,6 @@ Call the function. Here is an example with default options:
 ```js
 inputCounter({
   selector: "my-counter",
-  defaultValue: 1,
   minValue: 0,
   maxValue: 1000,
   increment: 1,
@@ -52,7 +51,6 @@ The same result can be achieved with HTML attributes instead of options object:
 #### Options
 
 - `selector` - all inputs that match this selector will be converted,
-- `defaultValue` - value of input after convertion,
 - `minValue` - minumum value of input,
 - `maxValue` - maximum value of input,
 - `increment` - value of an input increment,
